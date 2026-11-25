@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+psycopg2-binary
+python-dotenv
+pydantic
+PyJWT
+argon2-cffi
+requests
+opencv-python-headless
+numpy
+scipy
+librosa
+soundfile

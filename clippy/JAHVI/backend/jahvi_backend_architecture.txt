@@ -1,0 +1,28 @@
+JAHVI BACKEND — ONE SERVER (read this first)
+
+Process: a single uvicorn app (backend/main.py, port 8000). No separate workers, no HMAC, no SSE.
+Background threads started in main.py: queue_worker (drain) and sweeper (cleanup).
+
+FILES
+  main.py            app, CORS, routers, startup
+  config.py          every URL and tunable (frontend URL, load threshold, render cap, retention hours)
+  database.py        models; QueuedJob = every edit (instant or queued) and its finished result
+  me/login/signup/password_reset/jwt_handler   auth (email + password, JWT cookie)
+  paystack_*.py, credit_packs.py               credit purchases
+  upload_limits.py   credit check (require_processing_credits) + atomic charge (charge_credits)
+  edit_common.py     shared bits: OUTPUT_DIR, ratios, timestamp parsing, ffprobe helpers
+  queue_service.py   the jobs engine: submit_job (run now or queue) + execute_job (render -> upload -> charge -> clean)
+  queue_worker.py    the drain loop (starts oldest queued jobs when the CPU has room)
+  queue_routes.py    /api/videos: list, poll one job, stream result, delete
+  dashboard.py / extraction.py / beatsync.py   each = submit route + render() pipeline
+  patcher.py / patchless.py / timestamp_sync.py / rms.py   FFmpeg + librosa editing logic
+  headshot_routes.py + detect_headshot.py      OpenCV headshot detection, NEVER queued
+  uploadthing_client.py                        UploadThing REST wrapper (upload/delete/list/url)
+  sweeper.py         storage cleanup (see README)
+
+RULES THAT MUST NOT BREAK
+  - Credits are charged only after a video is produced and uploaded (charge_credits, rowcount checked).
+  - Headshot detection is never put in the queue.
+  - Progress is polled from the job row; never reintroduce a live-connection (SSE) dependency.
+  - Effects timing uses the exact stamp; only clip trimming extends +1s.
+  - Environment URLs live only in frontend/api_config.js and backend/config.py.
