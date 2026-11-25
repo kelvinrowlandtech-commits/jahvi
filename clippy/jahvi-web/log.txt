@@ -1,0 +1,114 @@
+HEADSHOT EXTRACTION LAB — BACKEND HANDOFF
+
+Scope: This describes the frontend contract in headshot_extraction_lab.js,
+timeline.js, video_prep.js, auth_ui.js, and job_poller.js. No backend source is
+present here, so request details below are what the frontend sends/requires,
+not claims about the server's current implementation.
+
+1. ACTUAL EXTRACTION FLOW (IMPORTANT)
+
+The current extraction page does NOT receive or use a job_id, and does NOT poll
+for extraction progress. It submits one multipart POST to {API_BASE_URL}/extract,
+keeps that request open, and expects the response to contain a playable `url`.
+If the backend returns only a job_id, the current page fails with “The
+extraction server did not return a video URL.”
+
+Sequence:
+1) Page initializes auth: GET /api/me (cookies included). On 401, POST
+   /auth/refresh, then retry /api/me. Missing user redirects to login.html.
+2) User chooses one video and adds at least one timeline timestamp (manually
+   or using Find headshots). Generate is disabled until both exist.
+3) Before preparation, frontend checks the user/credits via /api/me; requires
+   at least 2 credits. It prepares the video in-browser, then checks the
+   prepared upload size (max 1.1 GB).
+4) Browser preparation may cut around timestamps (10s before, 1s after,
+   overlapping windows merged), re-encode to MP4 (video 5 Mbps, audio 128 kbps),
+   and remap timestamps. If preparation is unsupported, fails, or does not
+   produce a smaller file, original video and timestamps are sent instead.
+   Large uploads (>50 MiB) require user confirmation.
+5) POST /extract (multipart, cookies included); wait for JSON response.
+6) On success, use `url` to load the result into the preview video element.
+   Read video metadata for final duration. Refresh credits via /api/me.
+
+2. MAIN REQUEST: POST {API_BASE_URL}/extract
+
+Content-Type: multipart/form-data (let the browser set the boundary).
+Credentials: cookies included. Do not require the frontend to set Content-Type.
+
+Fields:
+  video                 File, required; prepared MP4 when available, otherwise
+                        original selected video. Original filename is retained
+                        when prepared (with .mp4 extension).
+  headshot_timestamps   JSON string of sorted numeric seconds, e.g. "[2.35,8.1]".
+                        These are relative to the uploaded video; preparation
+                        remaps them if it cut the video.
+  max_gap               Numeric seconds as a string; default "5". Presets 3/5/10/15
+                        or a positive custom value.
+  ratio                "9:16" (default), "1:1", or "16:9".
+  patch                "false" by default (“Maximum gap”); "true" for “Exact gap”.
+
+Success response required by this page:
+  HTTP 2xx, JSON: { "url": "/video-or-file/path.mp4" }
+  `url` may also be absolute. Relative URLs are resolved against API_BASE_URL.
+  Optional `message` is used only if `url` is missing (then UI reports an error).
+
+Backend should validate auth/ownership, file type and size, timestamps within
+video duration, positive max_gap, supported ratio, and patch boolean; return
+useful 4xx/5xx JSON such as { "detail": "Readable explanation" }. Non-2xx
+responses are displayed using `detail` (or response text/status). A 401 clears
+the frontend session and redirects to login. This route does not retry the
+extraction POST after refreshing auth.
+
+The returned URL must be playable by the browser's video element. Serve a video
+content type and byte-range requests for seeking; if the media requires auth,
+ensure its URL/cookie/CORS behavior works with this page's video element.
+
+3. TIMELINE DETECTION (OPTIONAL, BEFORE EXTRACTION)
+
+Find headshots calls POST {API_BASE_URL}/api/detect-headshots as multipart:
+  video: File (browser-compressed whole video if available; otherwise original).
+Credentials included. On 401 it refreshes /auth/refresh and retries once.
+Expected success JSON: { "timestamps": [2.35, 8.1], "count": 2 }.
+Frontend uses `timestamps` to populate/edit the timeline; `count` is display-only.
+Manual timeline bars are also supported, so extraction does not depend on this
+detection endpoint. Timeline values are deduplicated, sorted, clamped to video
+duration, and rounded to milliseconds.
+
+4. PROGRESS AND JOB ID: CURRENT VS. ASYNC OPTION
+
+Current /extract progress is browser-only during video preparation. Once the
+upload is submitted, the UI shows indeterminate “Extracting headshots…” until
+the request returns. There is no extraction progress endpoint, SSE stream, or
+job_id handling in this page.
+
+The app already has a separate async job pattern (used by Dashboard and Beat
+Sync):
+  POST returns { "job_id": "...", "status": "queued",
+                 "queue_position": 0 } (queue fields optional to display).
+  Frontend then polls GET /api/videos/{job_id} every 5 seconds with cookies.
+  Poll JSON should include `status`; progress updates may include
+  `progress_percent` (0–100) and `progress_message`.
+  Completion must include { "status": "completed", "video_url": "/path.mp4" }.
+  Failure uses { "status": "failed", "error": "Readable reason" }.
+  `expired` is also handled; 404 means the job is missing/expired.
+  Polling refreshes auth once on 401 and retries; network errors show reconnecting.
+
+To make extraction queued and fully progress-reporting, have /extract return
+job_id (not just url), and wire this page to the existing JahviJobs.waitForJob()
+flow. On completion, its `video_url` is joined to API_BASE_URL by the other
+pages. Do not switch only the backend response: the current extraction UI
+requires `url` and will not poll. Conversely, to keep today's frontend unchanged,
+the backend must finish synchronously and return `url`.
+
+5. OTHER BACKEND EXPECTATIONS
+
+`/api/me` supplies at least user identity and numeric `credits`; credits are
+checked client-side before prep, but the backend must enforce credit balance
+and debit atomically when accepting/processing extraction. The UI refreshes
+credits after success. The page currently calls that refresh twice after a
+successful extraction response.
+
+API_BASE_URL is localhost:8000 on localhost, production
+https://jahvi.onrender.com otherwise (unless configured in url.js). All API
+requests use credentials: include. Ensure credentialed CORS and cookie settings
+match the deployed frontend origin.

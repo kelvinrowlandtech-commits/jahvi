@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+JAHVI/backend/uploads/*
+JAHVI/backend/outputs/*
+JAHVI/backend/tmp/*
+!JAHVI/backend/**/.gitkeep
+*.mp4
+*.mp3
+.env

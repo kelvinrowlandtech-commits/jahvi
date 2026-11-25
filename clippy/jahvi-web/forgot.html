@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jahvi — Forgot password</title>
+<style>
+  :root { --ink:#0a0d12; --paper:#fbf8f3; --ember:#ff5a36; --dim:rgba(251,248,243,.66); --danger:#ff6b6b; }
+  * { box-sizing:border-box; }
+  body { min-height:100vh; margin:0; display:grid; place-items:center; padding:24px; background:var(--ink); color:var(--paper); font-family:Inter,system-ui,sans-serif; }
+  main { width:min(100%,420px); }
+  .brand { display:flex; align-items:center; gap:10px; margin-bottom:34px; color:var(--paper); font:600 22px Georgia,serif; }
+  .brand img { width:32px; height:32px; border-radius:9px; object-fit:cover; }
+  .eyebrow { color:var(--ember); font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  h1 { margin:10px 0 8px; font:500 clamp(2.2rem,8vw,3.2rem) Georgia,serif; }
+  .intro { margin:0 0 28px; color:var(--dim); line-height:1.6; }
+  form { display:grid; gap:18px; }
+  label { display:grid; gap:8px; color:var(--dim); font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+  input { width:100%; padding:14px; border:1px solid rgba(251,248,243,.18); border-radius:10px; background:rgba(255,255,255,.05); color:var(--paper); font:inherit; }
+  input:focus { outline:2px solid rgba(255,90,54,.45); border-color:var(--ember); }
+  button { margin-top:4px; padding:14px; border:0; border-radius:999px; background:var(--ember); color:#160800; cursor:pointer; font:700 15px inherit; }
+  button:disabled { cursor:not-allowed; opacity:.6; }
+  .error { display:none; margin:0; padding:11px 12px; border:1px solid rgba(255,107,107,.35); border-radius:9px; background:rgba(255,107,107,.08); color:var(--danger); font-size:13px; }
+  .error.visible { display:block; }
+  .message { display:none; margin:0 0 18px; padding:12px; border:1px solid rgba(255,90,54,.28); border-radius:9px; color:var(--paper); font-size:13px; line-height:1.5; }
+  .message.visible { display:block; }
+  .message.success { border-color:rgba(104,211,160,.35); color:#9be3bc; }
+  form[hidden] { display:none; }
+  .secondary-actions { display:flex; justify-content:space-between; gap:14px; }
+  .secondary-actions button { margin:0; padding:6px 0; border:0; background:none; color:var(--ember); font:600 13px Inter,system-ui,sans-serif; text-align:left; }
+  .secondary-actions button:hover { text-decoration:underline; }
+  .footer { margin-top:24px; color:var(--dim); font-size:13px; text-align:center; }
+  a { color:var(--ember); font-weight:700; text-decoration:none; }
+  a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<main>
+  <a class="brand" href="index.html"><img src="clipForge.png" alt="Jahvi logo" />Jahvi</a>
+  <span class="eyebrow" id="step-label">Account recovery · Step 1 of 2</span>
+  <h1 id="page-title">Forgot password</h1>
+  <p class="intro" id="page-intro">Enter your account email and we'll send an 8-digit verification code.</p>
+  <p id="form-message" class="message" role="status" aria-live="polite"></p>
+  <form id="email-form" novalidate>
+    <label for="email">Email address
+      <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+    </label>
+    <p id="email-error" class="error" role="alert" aria-live="polite"></p>
+    <button id="send-code-button" type="submit">Send verification code</button>
+  </form>
+  <form id="otp-form" hidden novalidate>
+    <label for="otp-email">Account email
+      <input id="otp-email" type="email" autocomplete="email" readonly required />
+    </label>
+    <label for="otp">8-digit email code
+      <input id="otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="00000000" maxlength="8" pattern="[0-9]{8}" required />
+    </label>
+    <label for="new-password">New password
+      <input id="new-password" type="password" autocomplete="new-password" placeholder="At least 8 characters" required />
+    </label>
+    <p id="otp-error" class="error" role="alert" aria-live="polite"></p>
+    <button id="reset-button" type="submit">Update password</button>
+    <div class="secondary-actions">
+      <button id="resend-button" type="button">Send another code</button>
+      <button id="change-email-button" type="button">Change email</button>
+    </div>
+  </form>
+  <p class="footer"><a href="login.html">Back to log in</a></p>
+</main>
+<script type="module">
+import { API_BASE_URL } from './url.js';
+
+const emailForm = document.getElementById('email-form');
+const otpForm = document.getElementById('otp-form');
+const emailInput = document.getElementById('email');
+const otpEmailInput = document.getElementById('otp-email');
+const otpInput = document.getElementById('otp');
+const passwordInput = document.getElementById('new-password');
+const messageBox = document.getElementById('form-message');
+const emailError = document.getElementById('email-error');
+const otpError = document.getElementById('otp-error');
+const sendCodeButton = document.getElementById('send-code-button');
+const resetButton = document.getElementById('reset-button');
+const resendButton = document.getElementById('resend-button');
+const stepLabel = document.getElementById('step-label');
+const pageTitle = document.getElementById('page-title');
+const pageIntro = document.getElementById('page-intro');
+
+function showMessage(text, success = false) {
+  messageBox.textContent = text;
+  messageBox.classList.toggle('success', success);
+  messageBox.classList.add('visible');
+}
+
+async function sendCode(email, button) {
+  button.disabled = true;
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.detail || 'Could not send a code. Please try again.');
+    showMessage(`${data.message || 'If that email is registered, a verification code has been sent.'} Codes expire in 10 minutes.`, false);
+    return true;
+  } catch (error) {
+    showMessage(error.message || 'Could not reach the server. Please try again.');
+    return false;
+  } finally {
+    button.disabled = false;
+  }
+}
+
+emailForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  emailError.classList.remove('visible');
+  messageBox.classList.remove('visible');
+  const email = emailInput.value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    emailError.textContent = 'Enter a valid email address.';
+    emailError.classList.add('visible');
+    return;
+  }
+  if (await sendCode(email, sendCodeButton)) {
+    otpEmailInput.value = email;
+    emailForm.hidden = true;
+    otpForm.hidden = false;
+    stepLabel.textContent = 'Account recovery · Step 2 of 2';
+    pageTitle.textContent = 'Enter your code';
+    pageIntro.textContent = 'Use the code sent to this email, then choose a new password.';
+    otpInput.focus();
+  }
+});
+
+otpForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  otpError.classList.remove('visible');
+  messageBox.classList.remove('visible');
+  const otp = otpInput.value.trim();
+  const newPassword = passwordInput.value;
+  if (!/^\d{8}$/.test(otp)) {
+    otpError.textContent = 'Enter the 8-digit code from your email.';
+    otpError.classList.add('visible');
+    return;
+  }
+  if (newPassword.length < 8 || !/[A-Za-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+    otpError.textContent = 'Password must be 8+ characters with a letter and a number.';
+    otpError.classList.add('visible');
+    return;
+  }
+
+  resetButton.disabled = true;
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: otpEmailInput.value, otp, new_password: newPassword }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.detail || 'Could not reset your password. Request a new code.');
+    otpForm.hidden = true;
+    pageTitle.textContent = 'Password updated';
+    pageIntro.textContent = 'Your new password is ready. Log in to continue.';
+    showMessage(data.message || 'Password updated. You can now log in.', true);
+  } catch (error) {
+    showMessage(error.message || 'Could not reach the server. Please try again.');
+  } finally {
+    resetButton.disabled = false;
+  }
+});
+
+resendButton.addEventListener('click', async () => {
+  otpError.classList.remove('visible');
+  otpInput.value = '';
+  passwordInput.value = '';
+  await sendCode(otpEmailInput.value, resendButton);
+});
+
+document.getElementById('change-email-button').addEventListener('click', () => {
+  otpForm.hidden = true;
+  emailForm.hidden = false;
+  otpError.classList.remove('visible');
+  messageBox.classList.remove('visible');
+  stepLabel.textContent = 'Account recovery · Step 1 of 2';
+  pageTitle.textContent = 'Forgot password';
+  pageIntro.textContent = "Enter your account email and we'll send an 8-digit verification code.";
+  emailInput.focus();
+});
+</script>
+</body>
+</html>
