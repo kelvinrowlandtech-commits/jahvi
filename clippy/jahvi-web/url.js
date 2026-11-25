@@ -1,5 +1,5 @@
 const BACKEND_URL = '';
-const PRODUCTION_BACKEND_URL = 'https://jahvi.onrender.com';
+const PRODUCTION_BACKEND_URL = 'https://jahvi-production.up.railway.app';
 const CODESPACES_PORT_PATTERN = /-\d+(?=\.(?:app\.github\.dev|githubpreview\.dev)$)/;
 
 function resolveBackendUrl({ hostname, protocol }) {

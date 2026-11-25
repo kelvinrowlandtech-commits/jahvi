@@ -8,7 +8,10 @@ from pathlib import Path
 
 # --- Frontend: who may call this API ---
 FRONTEND_URL = "http://localhost:5000"
-EXTRA_FRONTEND_ORIGINS = ["http://127.0.0.1:5000"]
+EXTRA_FRONTEND_ORIGINS = [
+    "http://127.0.0.1:5000",
+    "https://clipforge-ff.netlify.app",
+]
 CODESPACE_NAME = ""  # put your Codespace name here if you run in GitHub Codespaces
 CODESPACE_FRONTEND_ORIGIN = (
     f"https://{CODESPACE_NAME}-5000.app.github.dev"
