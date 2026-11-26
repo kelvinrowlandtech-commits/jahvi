@@ -52,16 +52,16 @@ import { API_BASE_URL } from './url.js';
     const link = event.target.closest?.('.logout');
     if (!link) return;
     event.preventDefault();
-    auth.clearSession();
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 2000);
     fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
-      signal: controller.signal,
-    }).finally(() => {
-      window.clearTimeout(timeout);
+    }).then(response => {
+      if (!response.ok) throw new Error(`Logout failed (${response.status}).`);
+      auth.clearSession();
       window.location.replace('index.html');
+    }).catch(error => {
+      console.error('Could not log out:', error);
+      window.alert('Unable to log out. Please try again.');
     });
   }, true);
   window.JahviAuth = auth;

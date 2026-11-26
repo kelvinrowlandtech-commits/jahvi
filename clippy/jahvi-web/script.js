@@ -18,7 +18,7 @@ async function restoreSession() {
     }
 
     if (response.ok) {
-      window.location.replace('headshot_extraction_lab.html');
+      window.location.replace('dashboard.html');
     } else if (response.status === 401) {
       localStorage.removeItem('jahvi_user');
     }
