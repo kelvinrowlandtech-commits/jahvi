@@ -126,7 +126,8 @@ def detect_headshots_route(
         saved_video = save_video(video)
         if not saved_video:
             raise HTTPException(status_code=400, detail="A video upload is required.")
-        timestamps = detect_headshots(saved_video)
+        raw = detect_headshots(saved_video)
+        timestamps = sorted({max(0.0, round(t - config.DETECT_SHIFT_BACK, 1)) for t in raw})
         return {"timestamps": timestamps, "count": len(timestamps)}
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc

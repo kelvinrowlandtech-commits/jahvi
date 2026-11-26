@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClipForge — Turn raw footage into viral moments with AI</title>
-<meta name="description" content="ClipForge uses AI to find your best moments, cut clips, sync them to music, add captions, and export them ready for TikTok, Shorts and Reels — automatically.">
+<title>ClipForge — Turn Free Fire headshots into beat-synced montages</title>
+<meta name="description" content="ClipForge finds the headshots in your Free Fire clips, cuts around them, syncs every hit to the beat of your music, adds effects and an optional title, and exports in vertical, square or widescreen.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" type="image/png" href="icon/clipForge.png">
+<link rel="icon" type="image/png" href="clipForge.png">
 </head>
 <body>
 
@@ -36,54 +36,53 @@
   <section class="hero">
     <div class="hero-grid" aria-hidden="true"></div>
     <div class="wrap hero-inner">
-      <span class="eyebrow"><span class="dot"></span>AI just found 6 viral moments in your last upload</span>
-      <h1 class="display">Turn raw footage into <em>viral moments</em>.</h1>
-      <p class="lead">ClipForge watches your long-form video, finds the moments worth sharing, cuts them, syncs the beat, burns in captions, and exports them ready for TikTok, Shorts and Reels — while you do literally anything else.</p>
+      <span class="eyebrow"><span class="dot"></span>Headshots found, cut and synced to the beat</span>
+      <h1 class="display">Turn Free Fire headshots into <em>beat-synced montages</em>.</h1>
+      <p class="lead">ClipForge scans your Free Fire clip for headshots, cuts around every one, lands each hit on the beat of your music, adds effects and an optional title, and exports it vertical, square or widescreen — straight from your phone.</p>
       <div class="hero-actions">
         <a href="signup.html" class="btn btn-primary">Start clipping — free</a>
-        <a href="#how" class="btn btn-ghost">See it in action ↓</a>
+        <a href="#how" class="btn btn-ghost">See how it works ↓</a>
       </div>
       <div class="hero-trust">
-        <div class="avatar-stack"><span></span><span></span><span></span><span></span></div>
-        <p>Trusted by <strong>40,000+ creators</strong> — gamers, streamers, podcasters and editors</p>
+        <p>Made for <strong>Free Fire creators</strong> who edit montages on their phones</p>
       </div>
 
-      <!-- Signature visual: timeline -> AI detection -> fanned vertical clips -->
+      <!-- Signature visual: timeline -> headshot detection -> fanned vertical clips -->
       <div class="hero-visual reveal">
         <div class="device">
           <div class="device-bar">
             <span class="d"></span><span class="d"></span><span class="d"></span>
-            <span class="device-url mono">clipforge.ai/analyze</span>
-            <span class="device-status"><span class="pulse"></span>AI analyzing</span>
+            <span class="device-url mono">Headshot detection</span>
+            <span class="device-status"><span class="pulse"></span>Scanning clip</span>
           </div>
 
           <div class="timeline-block">
             <div class="timeline-meta">
-              <span class="mono">raw_stream_ep42.mp4</span>
-              <span class="mono dim">01:58:14</span>
+              <span class="mono">free_fire_clip.mp4</span>
+              <span class="mono dim">00:48</span>
             </div>
             <div class="waveform" id="waveform"></div>
             <div class="ai-markers">
-              <span class="marker" style="left:14%"><i></i>Hype</span>
-              <span class="marker" style="left:39%"><i></i>Clutch</span>
-              <span class="marker" style="left:63%"><i></i>Funny</span>
-              <span class="marker" style="left:85%"><i></i>Reaction</span>
+              <span class="marker" style="left:14%"><i></i>Headshot</span>
+              <span class="marker" style="left:39%"><i></i>Headshot</span>
+              <span class="marker" style="left:63%"><i></i>Headshot</span>
+              <span class="marker" style="left:85%"><i></i>Headshot</span>
             </div>
             <div class="scrub-line"></div>
           </div>
 
           <div class="clip-fan">
             <div class="clip-card c1">
-              <div class="clip-preview"><span class="cap">"wait... did that just—"</span></div>
-              <div class="clip-tag"><span class="badge tt">TikTok</span><span class="mono">0:17</span></div>
+              <div class="clip-preview"><span class="cap">headshot</span></div>
+              <div class="clip-tag"><span class="badge tt">9:16</span><span class="mono">0:17</span></div>
             </div>
             <div class="clip-card c2">
-              <div class="clip-preview"><span class="cap">clutch 1v4 no scope</span></div>
-              <div class="clip-tag"><span class="badge yt">Shorts</span><span class="mono">0:24</span></div>
+              <div class="clip-preview"><span class="cap">on the beat</span></div>
+              <div class="clip-tag"><span class="badge yt">1:1</span><span class="mono">0:24</span></div>
             </div>
             <div class="clip-card c3">
-              <div class="clip-preview"><span class="cap">chat lost it 💀</span></div>
-              <div class="clip-tag"><span class="badge ig">Reels</span><span class="mono">0:12</span></div>
+              <div class="clip-preview"><span class="cap">effect on</span></div>
+              <div class="clip-tag"><span class="badge ig">16:9</span><span class="mono">0:12</span></div>
             </div>
           </div>
         </div>
@@ -95,16 +94,15 @@
   <section class="proof">
     <div class="wrap proof-inner">
       <div class="chip-row">
-        <span class="chip">Gamers</span>
-        <span class="chip">Streamers</span>
-        <span class="chip">Podcasters</span>
-        <span class="chip">YouTubers</span>
-        <span class="chip">Social media creators</span>
+        <span class="chip">Free Fire creators</span>
+        <span class="chip">Montage makers</span>
+        <span class="chip">Short-form editors</span>
+        <span class="chip">Phone-first editors</span>
       </div>
       <div class="stat-row">
-        <div class="stat"><b data-count="1800000" class="mono">0</b><span>clips generated</span></div>
-        <div class="stat"><b data-count="90" data-suffix="s" class="mono">0</b><span>avg. render time</span></div>
-        <div class="stat"><b data-count="40000" data-suffix="+" class="mono">0</b><span>active creators</span></div>
+        <div class="stat"><b data-count="3" class="mono">0</b><span>export ratios</span></div>
+        <div class="stat"><b data-count="3" class="mono">0</b><span>editing tools in one place</span></div>
+        <div class="stat"><b data-count="5" data-suffix="h" class="mono">0</b><span>to download each finished video</span></div>
       </div>
     </div>
   </section>
@@ -113,13 +111,13 @@
   <section class="games section-pad">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="eyebrow"><span class="dot"></span>Trained on what actually clips</span>
+        <span class="eyebrow"><span class="dot"></span>Made for headshot montages</span>
         <h2 class="display">Built around your Free Fire clips.</h2>
         <p>ClipForge turns Free Fire headshots into sharp, share-ready edits with automatic detection, beat syncing, and flexible export ratios.</p>
       </div>
       <div class="game-grid reveal-stagger">
         <div class="game-card reveal" style="--i:0">
-          <img src="ff.jpg" alt="Free Fire gameplay clip">
+          <img src="step-detect.jpg" alt="Timeline with headshot bars detected automatically">
           <div class="game-overlay">
             <span class="game-tag">Headshot Detection</span>
             <h3>Find the Moment</h3>
@@ -127,7 +125,7 @@
           </div>
         </div>
         <div class="game-card reveal" style="--i:1">
-          <img src="ff.jpg" alt="Free Fire montage clip">
+          <img src="step-effects.jpg" alt="Clips joined into a montage with an effect chosen">
           <div class="game-overlay">
             <span class="game-tag">Montage Builder</span>
             <h3>Build the Highlight</h3>
@@ -135,7 +133,7 @@
           </div>
         </div>
         <div class="game-card reveal" style="--i:2">
-          <img src="ff.jpg" alt="Free Fire beat sync clip">
+          <img src="step-beatsync.jpg" alt="Clips cut to the beats of a song">
           <div class="game-overlay">
             <span class="game-tag">Beat Sync</span>
             <h3>Cut to the Drop</h3>
@@ -150,13 +148,13 @@
   <section class="problem section-pad" id="product">
     <div class="wrap problem-inner">
       <div class="reveal">
-        <p class="old">Editing used to mean hours in Premiere, scrubbing for the one clip that might actually pop off.</p>
-        <p class="new">Now AI finds it for you — in the time it takes to <em>make coffee</em>.</p>
+        <p class="old">Editing a headshot montage by hand means scrubbing for every kill, cutting each one, and lining it up with the beat.</p>
+        <p class="new">Now ClipForge finds each headshot, cuts around it and lands it on the beat — in minutes, not hours, in the time it takes to <em>make coffee</em>.</p>
       </div>
       <div class="problem-stats reveal">
-        <div class="p-stat"><b>6+ hrs</b><span>Average time creators used to spend manually clipping a single long-form stream or podcast episode.</span></div>
-        <div class="p-stat"><b>3 tools</b><span>Editors, caption apps, and beat-matching software — previously separate, now handled in one AI pass.</span></div>
-        <div class="p-stat"><b>0 editing</b><span>ClipForge exports vertical, captioned, beat-synced clips with zero manual timeline work.</span></div>
+        <div class="p-stat"><b>1 tool</b><span>Detection, cutting, effects, titles and beat sync in one place, so you don't jump between apps.</span></div>
+        <div class="p-stat"><b>0.7s</b><span>Always kept after every headshot, so the full hit is shown and never cut in half.</span></div>
+        <div class="p-stat"><b>3 ratios</b><span>Export vertical, square or widescreen, ready to post wherever you share your clips.</span></div>
       </div>
     </div>
   </section>
@@ -165,40 +163,40 @@
   <section class="features section-pad">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="eyebrow"><span class="dot"></span>The engine behind the clips</span>
+        <span class="eyebrow"><span class="dot"></span>What it does</span>
         <h2 class="display">Built to find the moment, not just the footage.</h2>
-        <p>Every feature in ClipForge exists to answer one question: what's the part of this video someone would actually stop scrolling for?</p>
+        <p>Everything in ClipForge exists for one job: turning your headshots into a clean, beat-synced montage.</p>
       </div>
       <div class="feat-grid reveal-stagger">
         <div class="feat-card reveal" style="--i:0">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
-          <h3>AI Clip Detection</h3>
-          <p>ClipForge scans full-length footage and flags the segments most likely to hook a viewer — hype plays, punchlines, reactions, plot twists.</p>
+          <h3>Auto Headshot Detection</h3>
+          <p>Upload a clip and ClipForge scans it for headshot moments, then drops a bar on the timeline for each one. Move, add or remove bars by hand any time.</p>
         </div>
         <div class="feat-card reveal" style="--i:1">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zM21 16a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
           <h3>Beat Sync Editing</h3>
-          <p>Cuts, zooms and transitions land exactly on the beat. Drop in a track and ClipForge re-times the edit to match it automatically.</p>
+          <p>Add a song, or a video to take the music from, and every headshot lands exactly on a beat. Short on footage? ClipForge fills the gap with clean clips from your video.</p>
         </div>
         <div class="feat-card reveal" style="--i:2">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
-          <h3>Auto Captions</h3>
-          <p>Bold, on-beat, platform-native captions generated and styled automatically — no dragging keyframes, no typos to fix.</p>
+          <h3>Auto Title</h3>
+          <p>Tick one box to add a random title at the top of your video, and choose how many seconds it stays on screen.</p>
         </div>
         <div class="feat-card reveal" style="--i:3">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
-          <h3>Viral Moment Finder</h3>
-          <p>Every clip gets scored on pacing, energy and hook strength, so you post the version most likely to actually take off.</p>
+          <h3>Headshot Effects</h3>
+          <p>Pick an effect style and it hits on every headshot, with a colour look across the whole video. Each time you generate, you get a fresh pick from the style you chose.</p>
         </div>
         <div class="feat-card reveal" style="--i:4">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span>
-          <h3>AI Prompt Editing</h3>
-          <p>Type what you want changed — "make it punchier," "add zoom on the reaction" — and ClipForge re-edits the clip on the spot.</p>
+          <h3>Gap Control</h3>
+          <p>Decide how much footage plays before each headshot: keep the whole clip, trim the long stretches, or fill every lead-up to an exact length.</p>
         </div>
         <div class="feat-card reveal" style="--i:5">
           <span class="feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
-          <h3>Creator Templates</h3>
-          <p>Caption styles, transitions and layouts modeled on what's actually performing right now across gaming, podcast and IRL content.</p>
+          <h3>Extraction Lab</h3>
+          <p>Pull just the headshot moments out of a longer clip into a tight highlight, with the full hit kept every time.</p>
         </div>
       </div>
     </div>
@@ -208,29 +206,29 @@
   <section class="how section-pad" id="how">
     <div class="wrap">
       <div class="section-head dark-on-light reveal">
-        <span class="eyebrow" style="background:rgba(10,13,18,0.05); border-color:var(--line-dark); color:var(--ink-text-dim);"><span class="dot"></span>Four steps, zero timeline</span>
-        <h2 class="display">From raw upload to ready-to-post.</h2>
+        <span class="eyebrow" style="background:rgba(10,13,18,0.05); border-color:var(--line-dark); color:var(--ink-text-dim);"><span class="dot"></span>Four steps</span>
+        <h2 class="display">From raw clip to finished montage.</h2>
       </div>
       <div class="how-steps">
         <div class="how-step reveal" style="--i:0">
           <div class="how-num">01 · UPLOAD</div>
-          <h3>Drop in your footage</h3>
-          <p>A stream VOD, podcast recording, or long-form video — any length, any source. ClipForge ingests it in the background.</p>
+          <h3>Add your clip</h3>
+          <p>Pick a Free Fire gameplay clip from your phone. It's shrunk right in your browser first, so the upload stays fast.</p>
         </div>
         <div class="how-step reveal" style="--i:1">
-          <div class="how-num">02 · AI ANALYSIS</div>
-          <h3>AI finds the moments</h3>
-          <p>Speech, energy, laughter, action and pacing are analyzed frame by frame to surface the segments worth cutting.</p>
+          <div class="how-num">02 · DETECTION</div>
+          <h3>Headshots get marked</h3>
+          <p>ClipForge scans the clip and puts a bar on the timeline for each headshot. Fix, add or remove bars by hand.</p>
         </div>
         <div class="how-step reveal" style="--i:2">
           <div class="how-num">03 · EDITING</div>
-          <h3>Auto-edit, or fine-tune</h3>
-          <p>Clips arrive cut, captioned and beat-synced. Nudge anything with a prompt, or let it ship as-is.</p>
+          <h3>Choose your style</h3>
+          <p>Pick an effect, a ratio and an optional title. For Beat Sync, add your music too. Then hit generate.</p>
         </div>
         <div class="how-step reveal" style="--i:3">
-          <div class="how-num">04 · EXPORT</div>
-          <h3>Export, everywhere</h3>
-          <p>Vertical, square or widescreen — sized and formatted for TikTok, Shorts and Reels in one click.</p>
+          <div class="how-num">04 · DOWNLOAD</div>
+          <h3>Save your video</h3>
+          <p>Watch it, then download the MP4. Finished videos are kept for 5 hours, so save yours before they're removed.</p>
         </div>
       </div>
     </div>
@@ -240,68 +238,56 @@
   <section class="usecases section-pad" id="creators">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="eyebrow"><span class="dot"></span>Built for how you actually create</span>
-        <h2 class="display">One engine. Every kind of creator.</h2>
-        <p>ClipForge adapts its moment-finding to what makes your content work — because a viral gaming clip and a viral podcast clip aren't found the same way.</p>
+        <span class="eyebrow"><span class="dot"></span>Who it's for</span>
+        <h2 class="display">Made for headshot montage creators.</h2>
+        <p>Right now ClipForge is focused on Free Fire headshots, so the detection and the cuts are tuned for exactly that.</p>
       </div>
       <div class="uc-grid">
         <div class="uc-card reveal" style="--i:0">
           <span class="uc-icon">🎮</span>
-          <h3>Gamers</h3>
-          <p>Clutch plays, insane clips and rage moments get pulled from hours of VODs automatically — no more scrubbing for the highlight.</p>
+          <h3>Free Fire creators</h3>
+          <p>Turn your best kills into a montage without scrubbing through every match to find them.</p>
         </div>
         <div class="uc-card reveal" style="--i:1">
-          <span class="uc-icon">🔴</span>
-          <h3>Streamers</h3>
-          <p>Turn every stream into a week of short-form content. ClipForge finds the reactions and chat-breaking moments while you sleep.</p>
+          <span class="uc-icon">🎵</span>
+          <h3>Montage makers</h3>
+          <p>Land every headshot on the drop of your favourite track, with no manual timeline work.</p>
         </div>
         <div class="uc-card reveal" style="--i:2">
-          <span class="uc-icon">🎙️</span>
-          <h3>Podcasters</h3>
-          <p>The best 30-second take, pulled from a 90-minute conversation — captioned, punchy, and ready to post before the episode's even out.</p>
+          <span class="uc-icon">📱</span>
+          <h3>Phone-first editors</h3>
+          <p>Everything runs in your browser. No desktop software and no heavy editing app to install.</p>
         </div>
         <div class="uc-card reveal" style="--i:3">
           <span class="uc-icon">▶️</span>
-          <h3>YouTubers</h3>
-          <p>Repurpose long-form into Shorts without touching a timeline. Grow a second channel from content you've already made.</p>
+          <h3>Short-form channels</h3>
+          <p>Export vertical, square or widescreen videos for the shape your channel or page needs.</p>
         </div>
         <div class="uc-card reveal" style="--i:4">
-          <span class="uc-icon">📱</span>
-          <h3>Social creators</h3>
-          <p>From IRL streams to talking-head content, ClipForge finds the hook in the first three seconds — the part that stops the scroll.</p>
+          <span class="uc-icon">✂️</span>
+          <h3>Highlight pages</h3>
+          <p>Running a clips page? Cut the headshot moments out of long clips quickly with the Extraction Lab.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= TESTIMONIALS ================= -->
+  <!-- ================= GOOD TO KNOW ================= -->
   <section class="testi section-pad" id="testimonials">
     <div class="wrap">
       <div class="section-head dark-on-light reveal">
-        <span class="eyebrow" style="background:rgba(10,13,18,0.05); border-color:var(--line-dark); color:var(--ink-text-dim);"><span class="dot"></span>Creators, not case studies</span>
-        <h2 class="display">Ask anyone who's stopped editing manually.</h2>
+        <span class="eyebrow" style="background:rgba(10,13,18,0.05); border-color:var(--line-dark); color:var(--ink-text-dim);"><span class="dot"></span>Good to know</span>
+        <h2 class="display">What to know before you start.</h2>
       </div>
       <div class="testi-grid">
         <div class="t-card reveal" style="--i:0">
-          <p class="quote">"I used to spend my entire Monday clipping Sunday's stream. Now ClipForge has 15 clips ready before I've finished my coffee — and they're better cuts than I was making by hand."</p>
-          <div class="t-who">
-            <span class="av" style="background:linear-gradient(135deg,#FF5A36,#FFB020);"></span>
-            <div><b>Kayo</b><span>Twitch streamer, FPS</span></div>
-          </div>
+          <p class="quote">Free to try. You get free credits when you sign up, and each finished video uses 2 credits. If a video fails to render, your credits are returned automatically.</p>
         </div>
         <div class="t-card reveal" style="--i:1">
-          <p class="quote">"The beat sync alone replaced an editor for me. Every clip lands on the drop without me touching a timeline."</p>
-          <div class="t-who">
-            <span class="av" style="background:linear-gradient(135deg,#6E56FF,#FF5A36);"></span>
-            <div><b>Maren D.</b><span>Podcast host</span></div>
-          </div>
+          <p class="quote">Made for Free Fire. Detection reads the headshot icon on the Free Fire screen, so other games aren't supported yet. You can always place bars by hand.</p>
         </div>
         <div class="t-card reveal" style="--i:2">
-          <p class="quote">"I repurposed two years of long-form into a Shorts channel that now outgrows the main one. It found moments I'd forgotten were even good."</p>
-          <div class="t-who">
-            <span class="av" style="background:linear-gradient(135deg,#17C964,#6E56FF);"></span>
-            <div><b>Jordan P.</b><span>YouTuber, 480K subs</span></div>
-          </div>
+          <p class="quote">Download within 5 hours. Finished videos are removed from our servers after 5 hours, so save yours to your phone as soon as it's ready.</p>
         </div>
       </div>
     </div>
@@ -310,8 +296,8 @@
   <!-- ================= FINAL CTA ================= -->
   <section class="final-cta">
     <div class="wrap">
-      <h2 class="reveal">Your next viral clip is already in your footage.</h2>
-      <p class="reveal">Join 40,000+ creators who stopped scrubbing timelines and started letting AI find the moment.</p>
+      <h2 class="reveal">Your next headshot montage is already in your footage.</h2>
+      <p class="reveal">Sign up, add a clip, and get your first beat-synced montage in minutes.</p>
       <div class="hero-actions reveal">
         <a href="signup.html" class="btn btn-dark">Start clipping — free</a>
       </div>
@@ -324,10 +310,10 @@
     <div class="foot-top">
       <div class="foot-brand">
         <a href="#" class="logo">
-          <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" fill="#160800"/></svg></span>
+          <img src="clipForge.png" alt="ClipForge" class="mark-img">
           ClipForge
         </a>
-        <p>AI video editing for creators who'd rather be creating. Upload once, export everywhere.</p>
+        <p>Headshot montage editing for Free Fire creators. Upload a clip, download a finished video.</p>
       </div>
       <div class="foot-col">
         <h4>Product</h4>
@@ -335,10 +321,9 @@
         <a href="#how">How it works</a>
       </div>
       <div class="foot-col">
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Careers</a>
-        <a href="#">Contact</a>
+        <h4>Account</h4>
+        <a href="login.html">Log in</a>
+        <a href="signup.html">Sign up</a>
       </div>
       <div class="foot-col">
         <h4>Legal</h4>
@@ -348,12 +333,8 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 ClipForge. All rights reserved.</span>
-      <div class="foot-social">
-        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 3v10.5a3.5 3.5 0 11-3-3.46V7a7 7 0 007 7"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-      </div>
     </div>
+    <p style="margin-top:16px; font-size:12px; opacity:.6;">ClipForge is not affiliated with, endorsed by or sponsored by Garena or Free Fire. Free Fire and Garena are trademarks of their respective owners.</p>
   </div>
 </footer>
 

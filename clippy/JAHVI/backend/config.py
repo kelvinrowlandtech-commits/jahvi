@@ -34,7 +34,7 @@ for _folder in (UPLOAD_DIR, OUTPUT_DIR, TMP_DIR, TITLES_DIR):
 
 # --- Jobs, credits, queue ----------------------------------------------------
 JOB_COST = 2                 # credits taken at submit; refunded if the job fails
-MAX_CONCURRENT_JOBS = 4      # jobs rendering at once (direct jobs + the drainer)
+MAX_CONCURRENT_JOBS = 3     # jobs rendering at once (direct jobs + the drainer)
 QUEUE_CAP = 30               # more queued jobs than this -> "busy, try again"
 DRAIN_IDLE_SECONDS = 2       # drainer sleep when it has nothing to do
 JOB_TIMEOUT_SECONDS = 20 * 60  # one FFmpeg run is killed after this long
@@ -44,7 +44,7 @@ MAX_CONCURRENT_DETECTIONS = 2  # auto headshot detection (OpenCV) runs at most t
 DISK_MAX_USED_PERCENT = 95   # at or above this the server refuses new uploads
 MAX_VIDEO_MB = 200
 MAX_AUDIO_MB = 200           # Beat Sync audio may be a whole video, so same size
-
+DETECT_SHIFT_BACK = 0.5
 # --- Cutting knobs (shared by all 3 pages) -----------------------------------
 TAIL = 0.7           # seconds always kept AFTER a headshot stamp (use 0.5 for tighter)
 START_MARGIN = 1.0   # a clip never starts closer than this to the previous stamp
