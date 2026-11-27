@@ -18,7 +18,8 @@ async function restoreSession() {
     }
 
     if (response.ok) {
-      window.location.replace('dashboard.html');
+      const user = await response.json();
+      localStorage.setItem('jahvi_user', JSON.stringify(user));
     } else if (response.status === 401) {
       localStorage.removeItem('jahvi_user');
     }
