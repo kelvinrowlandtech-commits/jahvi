@@ -18,7 +18,7 @@
 // ============================================================
 
 export const PREP = {
-  videoMbps: 5,
+  videoMbps: 7,
   audioKbps: 128,
   secondsBefore: 10,
   secondsAfter: 1,

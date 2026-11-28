@@ -105,7 +105,7 @@ class PatchPool:
 
 # ----------------------------- the plan --------------------------------------
 
-def plan_beatsync(stamps, beats, source_duration):
+def plan_beatsync(stamps, beats, source_duration, max_intro=None):
     """
     Returns {"clips": [Clip...], "length": seconds of finished video,
              "music_offset": seconds to skip at the start of the song, "beats_used": n}
@@ -117,7 +117,9 @@ def plan_beatsync(stamps, beats, source_duration):
     if not kept:
         raise ValueError("No usable beats were found in that audio.")
 
-    offset = max(0.0, kept[0] - config.MAX_INTRO_SECONDS)   # long silent intro: start the edit earlier in the song
+      # long silent intro: start the edit earlier in the song
+    limit = config.MAX_INTRO_SECONDS if max_intro is None else max_intro
+    offset = max(0.0, kept[0] - limit)
     times = [b - offset for b in kept]
 
     pool = PatchPool(clean_zones(stamps, source_duration))
@@ -143,3 +145,8 @@ def plan_beatsync(stamps, beats, source_duration):
         prev_end = beat + tail
 
     return {"clips": clips, "length": prev_end, "music_offset": offset, "beats_used": len(times)}
+
+def plan_exact_gap(stamps, gap, source_duration):
+    spacing = gap + config.TAIL
+    slots = [gap + i * spacing for i in range(len(stamps))]
+    return plan_beatsync(stamps, slots, source_duration, max_intro=gap)["clips"]

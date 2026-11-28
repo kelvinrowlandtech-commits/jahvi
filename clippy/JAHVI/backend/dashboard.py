@@ -3,6 +3,7 @@ dashboard.py
 Dashboard (Quick Edit): cut only (Normal / Maximum gap / Exact gap) + effect from the effect table
 + optional auto title. No beat sync here.
 """
+from beats import plan_exact_gap
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -69,11 +70,14 @@ def run_dashboard(ctx, progress):
         effect = pick_effect(db, p["effect_class_ids"])
 
     progress("planning", 12)
-    if p["gap_mode"] == "normal":                       # Normal: no cutting, effects only
-        trims = [(0.0, info["duration"])]
-    else:                                               # Maximum gap patches, Exact gap does not
-        trims = plan_trims(stamps, p["gap_value"], patch=(p["gap_mode"] == "maximum"))
-    clips = builder.clips_from_trims(trims, stamps)
+    if p["gap_mode"] == "normal":
+        clips = builder.clips_from_trims([(0.0, info["duration"])], stamps)
+    elif p["gap_mode"] == "maximum":      # the button now labelled "Exact gap"
+        clips = plan_exact_gap(stamps, p["gap_value"], info["duration"])
+    else:
+        clips = builder.clips_from_trims(plan_trims(stamps, p["gap_value"], patch=False), stamps)
+
+
 
     title_path = builder.pick_title() if p["autotitle"] else None
     out = config.OUTPUT_DIR / f"{ctx.id}.mp4"

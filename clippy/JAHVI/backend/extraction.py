@@ -5,7 +5,7 @@ export ratio. No effects, no title. The frontend polls /extraction_progress/{job
 """
 from fastapi import APIRouter, Depends, File, Form, UploadFile
 from sqlalchemy.orm import Session
-
+from beats import plan_exact_gap
 import builder
 import config
 import jobs
@@ -42,8 +42,10 @@ def run_extraction(ctx, progress):
     if not info["has_video"] or info["duration"] <= 0:
         raise ValueError("That file could not be read as a video.")
     progress("planning", 12)
-    trims = plan_trims(p["stamps"], p["max_gap"], patch=p["patch"])
-    clips = builder.clips_from_trims(trims, [])             # no effects on this page
+    if p["patch"]:
+        clips = plan_exact_gap(p["stamps"], p["max_gap"], info["duration"])
+    else:
+        clips = builder.clips_from_trims(plan_trims(p["stamps"], p["max_gap"], patch=False), [])            # no effects on this page
     out = config.OUTPUT_DIR / f"{ctx.id}.mp4"
     builder.render_clips(ctx.video, clips, out, ctx.tmp_dir, ratio=p["ratio"],
                          on_progress=lambda f: progress("rendering", 18 + 78 * f))
